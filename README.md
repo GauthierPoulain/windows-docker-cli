@@ -59,3 +59,10 @@
    ```powershell
    docker --version
    ```
+
+## Step 5 : keep docker alive
+1. Open PowerShell as Administrator.
+2. Run the following command to create a scheduled task that keeps Docker alive:
+   ```powershell
+   schtasks /create /tn "KeepWSLActive" /tr 'C:\Windows\System32\conhost.exe --headless powershell.exe -WindowStyle Hidden -NoProfile -NonInteractive -Command \"wsl.exe sleep infinity\"' /sc ONLOGON /rl LIMITED /f
+   ```
