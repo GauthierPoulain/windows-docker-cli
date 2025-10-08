@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce
+    image: portainer/portainer-ce:latest
     restart: unless-stopped
     ports:
       - "9000:9000"
