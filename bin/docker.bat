@@ -1,2 +1,2 @@
 @echo off
-wsl docker %*
+wsl --distribution docker-lite docker %*

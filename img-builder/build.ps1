@@ -1,9 +1,11 @@
+$ScriptPath  = split-path -parent $MyInvocation.MyCommand.Definition
 $BuildName   = "docker-lite"         
-$FinalTar    = ".\wsl-docker-lite.tar"
 $UbuntuUrl   = "https://cdimage.ubuntu.com/ubuntu-base/releases/24.04/release/ubuntu-base-24.04.3-base-amd64.tar.gz"
 $BaseTar     = "C:\Temp\ubuntu-base.tar.gz"
 $NewUser     = "dockeradmin"
-$NewPass     = "dockerpass"            
+$NewPass     = "dockerpass"
+$FinalTar    = "$ScriptPath\wsl-docker-lite.tar"
+
 
 $BuildDir = "C:\Temp\build-wsl-docker-lite"
 
@@ -20,7 +22,7 @@ if (!(Test-Path $BaseTar)) {
 Write-Host "Setup build environment..."
 wsl --import $BuildName $BuildDir $BaseTar
 
-$SetupScript = Get-Content -Raw -Path ".\setup.sh"
+$SetupScript = Get-Content -Raw -Path "$ScriptPath/setup-wsl.sh"
 $SetupScript = $SetupScript -replace "<NEW_USER>", $NewUser
 $SetupScript = $SetupScript -replace "<NEW_PASS>", $NewPass
 

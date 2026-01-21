@@ -1,69 +1,38 @@
 # windows-docker-cli
 
-## Step 1 : install wsl
+## 1 : Install WSL
 
 1. Open PowerShell as Administrator.
 2. Run the following command to enable WSL:
    ```powershell
-   wsl --install
+   wsl --install --no-distribution
    ```
 3. Restart your computer when prompted.
-
-## Step 2 : install docker
-
-1. Open Powershell
-2. Run the following command to access wsl:
+4. After the restart, open PowerShell as Administrator again.
+5. Set WSL to use version 2 by default:
    ```powershell
-   wsl
+   wsl --set-default-version 2
    ```
-3. Run the following command to install Docker:
-   ```bash
-   sudo apt update
-   sudo apt install docker.io
+
+## 2 : install docker-lite distribution
+
+1. Open Powershell as Administrator.
+2. Run this all in one script to install the docker-lite WSL distribution:
+   ```powershell
+   ./setup.ps1
    ```
-4. Add your user to the docker group:
-   ```bash
-   sudo usermod -aG docker $USER
-   ```
-5. Restart your WSL instance or run the following command to apply group changes:
-   ```bash
-   newgrp docker
-   ```
-6. Verify the installation by checking the Docker version:
+3. Verify the installation by checking the Docker version:
    ```bash
    docker --version
    ```
+4. Restart your computer to ensure all changes take effect.
 
-## Step 3 : install docker compose
 
-1. Run the following command to install Docker Compose:
+## 3 : Install portainer for GUI management (optional)
+
+1. In your terminal, run the following command to deploy Portainer:
    ```bash
-   sudo apt install docker-compose-v2
-   ```
-2. Verify the installation by checking the version:
-   ```bash
-   docker compose --version
+   docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
    ```
 
-## Step 4 : add docker to path
-
-1. Add the `bin` directory of this repository to your system PATH.
-   - Open the Start Menu and search for "Environment Variables".
-   - Click on "Edit the system environment variables".
-   - In the System Properties window, click on the "Environment Variables" button.
-   - In the Environment Variables window, find the "Path" variable in the "System variables" section and select it.
-   - Click on the "Edit" button.
-   - In the Edit Environment Variable window, click on the "New" button and add the path to the `bin` directory of this repository.
-   - Click "OK" to close all the windows.
-2. Open a new PowerShell window and run the following command to verify that Docker is in your PATH:
-   ```powershell
-   docker --version
-   ```
-
-## Step 5 : keep docker alive
-
-1. Open PowerShell as Administrator.
-2. Run the following command in the current directory to create a scheduled task that keeps Docker alive:
-   ```powershell
-   schtasks /create /xml .\KeepWSLActive.xml /tn "KeepWSLActive"  /f
-   ```
+2. Open your web browser and navigate to `http://localhost:9000` to access the Portainer web interface.
